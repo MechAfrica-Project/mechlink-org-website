@@ -54,6 +54,7 @@ export default function Footer() {
                 <FooterLink href="#product">MechAfrica</FooterLink>
                 <FooterLink href="#services">Services</FooterLink>
                 <FooterLink href="#talent">Talent</FooterLink>
+                <FooterLink href="/team">Team</FooterLink>
                 <FooterLink href="#contact">Contact</FooterLink>
               </nav>
             </div>

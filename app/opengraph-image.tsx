@@ -14,7 +14,7 @@ export default async function Image() {
   const ttnormsRegular = readFileSync(join(process.cwd(), 'app/fonts/TTNorms-Regular.otf'));
   const ttnormsMedium = readFileSync(join(process.cwd(), 'app/fonts/TTNorms-Medium.otf'));
   const ttnormsBold = readFileSync(join(process.cwd(), 'app/fonts/TTNorms-Bold.otf'));
-  const markBase64 = readFileSync(join(process.cwd(), 'public/mechlink-mark.png')).toString('base64');
+  const markBase64 = readFileSync(join(process.cwd(), 'public/mechlink-mark-dark.png')).toString('base64');
 
   return new ImageResponse(
     (

@@ -5,31 +5,35 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnimatedSectionBadge } from "../ui/AnimatedSectionBadge";
 import Image from "next/image";
+import { talentImages } from "../../lib/images";
 
 const accordionItems = [
   {
     id: "item1",
     title: "Cohort-Based, Hands-On Training",
     content: "We train and mentor aspiring tech professionals through practical, project-based learning — not lectures. Every cohort works against real problems, not toy exercises.",
-    image: "https://picsum.photos/id/1074/1200/1200"
+    image: talentImages.cohortTraining.src,
+    imageAlt: talentImages.cohortTraining.alt,
   },
   {
     id: "item2",
     title: "Real Product, Real Client Work",
     content: "Trainees build against real MechAfrica features and real client engagements from our Services pillar — the same standards our engineering team ships to production with.",
-    image: "https://picsum.photos/id/119/1200/1200"
+    image: talentImages.realClientWork.src,
+    imageAlt: talentImages.realClientWork.alt,
   },
   {
     id: "item3",
     title: "A Pathway Into MechLink",
     content: "The best graduates don't just get a certificate — they get an offer. Our strongest Talent program alumni go on to build on MechAfrica and MechLink client projects.",
-    image: "https://picsum.photos/id/180/1200/1200"
+    image: talentImages.pathwayMechlink.src,
+    imageAlt: talentImages.pathwayMechlink.alt,
   },
 ];
 
 export default function WhyChooseUsSection() {
   const [activeItem, setActiveItem] = useState("item1");
-  const activeImage = accordionItems.find(item => item.id === activeItem)?.image || accordionItems[0].image;
+  const activeEntry = accordionItems.find(item => item.id === activeItem) || accordionItems[0];
 
   const animProps = {
     initial: { opacity: 0, y: 30 },
@@ -131,12 +135,12 @@ export default function WhyChooseUsSection() {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute inset-0 w-full h-full"
               >
-                <Image 
-                  src={activeImage} 
-                  alt="Feature visualization" 
+                <Image
+                  src={activeEntry.image}
+                  alt={activeEntry.imageAlt}
                   width={1200}
                   height={1200}
-                  className="w-full h-full object-cover opacity-80" 
+                  className="w-full h-full object-cover opacity-80"
                 />
               </motion.div>
             </AnimatePresence>

@@ -1,3 +1,4 @@
+import { blogCovers } from "./images";
 
 export const articles = [
   {
@@ -8,7 +9,7 @@ export const articles = [
     readTime: "8 min read",
     excerpt: "Smartphones and stable internet are not universal in rural Africa. Here's how MechAfrica's architecture treats USSD and feature phones as first-class citizens, not fallbacks.",
     isFeatured: true,
-    coverImage: "https://picsum.photos/id/28/1200/800",
+    coverImage: blogCovers.offlineFirstUssd,
     content: (
       <>
         <h2>Designing for the Network You Actually Have</h2>
@@ -38,7 +39,7 @@ export const articles = [
     readTime: "6 min read",
     excerpt: "No app store download convinces a farmer to trust a new platform with their harvest. Here's why MechAfrica put people, not push notifications, at the center of onboarding.",
     isFeatured: false,
-    coverImage: "https://picsum.photos/id/106/1200/800",
+    coverImage: blogCovers.fieldAgentsTrust,
     content: (
       <>
         <h2>The Digital Divide Isn&apos;t Just About Signal</h2>
@@ -58,7 +59,7 @@ export const articles = [
     readTime: "5 min read",
     excerpt: "Every design decision costs kilobytes and cognitive load. What we learned building interfaces for users who may never load a full webpage.",
     isFeatured: false,
-    coverImage: "https://picsum.photos/id/180/1200/800",
+    coverImage: blogCovers.designingZeroData,
     content: (
       <>
         <h2>Design Constraints as Design Direction</h2>
@@ -75,7 +76,7 @@ export const articles = [
     readTime: "6 min read",
     excerpt: "MechLink isn't three separate businesses stapled together. Here's how building MechAfrica, delivering client work, and training engineers reinforce each other.",
     isFeatured: false,
-    coverImage: "https://picsum.photos/id/201/1200/800",
+    coverImage: blogCovers.flywheelProductsServicesTalent,
     content: (
       <>
         <h2>Three Pillars, One Engine</h2>
@@ -145,4 +146,36 @@ export const roles = [
       </>
     )
   }
+];
+
+// TODO: placeholder roster — replace every entry with real people before this page ships.
+// `initials` drives the avatar shown until a real `photo` path is added.
+export const teamMembers = [
+  {
+    slug: "add-founder-1",
+    name: "Add Founder Name",
+    initials: "??",
+    title: "Add Title (e.g. Co-Founder & CEO)",
+    bio: "Add a 1-2 sentence bio: background, what they focus on at MechLink.",
+    photo: null,
+    linkedin: "",
+  },
+  {
+    slug: "add-founder-2",
+    name: "Add Founder Name",
+    initials: "??",
+    title: "Add Title (e.g. Co-Founder & CTO)",
+    bio: "Add a 1-2 sentence bio: background, what they focus on at MechLink.",
+    photo: null,
+    linkedin: "",
+  },
+  {
+    slug: "add-team-member-3",
+    name: "Add Name",
+    initials: "??",
+    title: "Add Title",
+    bio: "Add a 1-2 sentence bio.",
+    photo: null,
+    linkedin: "",
+  },
 ];

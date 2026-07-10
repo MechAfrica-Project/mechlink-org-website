@@ -32,6 +32,11 @@ export default function HeroSection() {
         <IsometricMockupGrid />
       </div>
 
+      {/* Mobile-only scrim: the collage sits close behind the text column below the sm
+          breakpoint (it shifts right at sm+), so guarantee contrast here without touching
+          the collage's tuned per-breakpoint positioning. */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-void via-void/85 to-transparent sm:hidden" />
+
       {/* ── HERO CONTENT ── */}
       <motion.div
         className="relative max-w-max-width mx-auto px-gutter w-full z-20"

@@ -5,31 +5,32 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { AnimatedSectionBadge } from "../ui/AnimatedSectionBadge";
+import { featureImages } from "../../lib/images";
 
 const projects = [
   {
     id: 1,
     title: "Farmer ↔ Provider Matching",
     tags: ["Mechanization", "Crop Care", "Logistics"],
-    image: "https://picsum.photos/id/1073/800/600",
+    image: featureImages.farmerProviderMatching.src,
   },
   {
     id: 2,
     title: "Offline-First, USSD Access",
     tags: ["No Smartphone Required", "No Internet Required"],
-    image: "https://picsum.photos/id/28/800/600",
+    image: featureImages.offlineUssdAccess.src,
   },
   {
     id: 3,
     title: "Field Agent Network",
     tags: ["Onboarding", "Localized Trust"],
-    image: "https://picsum.photos/id/106/800/600",
+    image: featureImages.fieldAgentNetwork.src,
   },
   {
     id: 4,
     title: "Mobile Money Payments",
     tags: ["Seamless Settlement", "Real-Time Visibility"],
-    image: "https://picsum.photos/id/155/800/600",
+    image: featureImages.mobileMoneyPayments.src,
   },
 ];
 

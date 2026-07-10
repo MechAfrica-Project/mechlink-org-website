@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { heroImages } from "../../lib/images";
 
 export default function IsometricMockupGrid() {
   // Common styling for all devices based on Sparrow CSS
@@ -64,7 +65,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.5)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/1073/800/600" alt="Field agent onboarding a farmer" width={800} height={600} className="w-full h-full object-cover" />
+          <Image {...heroImages.fieldAgentOnboarding} alt={heroImages.fieldAgentOnboarding.alt} className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
@@ -74,7 +75,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.4)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/28/400/800" alt="Tractor operator in the field" width={400} height={800} className="w-full h-full object-cover opacity-90" />
+          <Image {...heroImages.tractorOperator} alt={heroImages.tractorOperator.alt} className="w-full h-full object-cover opacity-90" />
         </motion.div>
       </motion.div>
 
@@ -101,7 +102,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.2)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/106/400/800" alt="Farmland" width={400} height={800} className="w-full h-full object-cover opacity-90" />
+          <Image {...heroImages.farmlandRows} alt={heroImages.farmlandRows.alt} className="w-full h-full object-cover opacity-90" />
         </motion.div>
       </motion.div>
 
@@ -111,7 +112,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.4)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/155/1200/800" alt="Service provider dashboard" width={1200} height={800} className="w-full h-full object-cover" />
+          <Image {...heroImages.providerDashboardUi} alt={heroImages.providerDashboardUi.alt} className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
@@ -121,7 +122,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.5)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/152/800/600" alt="Rural landscape" width={800} height={600} className="w-full h-full object-cover" />
+          <Image {...heroImages.ruralLandscape} alt={heroImages.ruralLandscape.alt} className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
@@ -135,7 +136,7 @@ export default function IsometricMockupGrid() {
           <h3 className="text-sm 2xl:text-2xl font-black text-[#1a1a1a] leading-tight mb-2 2xl:mb-4">Real-time provider matching</h3>
           <p className="text-[8px] 2xl:text-sm text-gray-500 leading-relaxed mb-4">Payments settle through mobile money, end to end.</p>
           <div className="w-full flex-grow bg-gray-100 rounded-lg overflow-hidden">
-             <Image src="https://picsum.photos/id/177/400/300" alt="Mockup" width={400} height={300} className="w-full h-full object-cover" />
+             <Image {...heroImages.matchingMapUi} alt={heroImages.matchingMapUi.alt} className="w-full h-full object-cover" />
           </div>
         </motion.div>
       </motion.div>
@@ -146,7 +147,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.3)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/48/400/800" alt="Crops" width={400} height={800} className="w-full h-full object-cover" />
+          <Image {...heroImages.cropsCloseup} alt={heroImages.cropsCloseup.alt} className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
@@ -156,7 +157,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.2)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/175/400/800" alt="Logistics" width={400} height={800} className="w-full h-full object-cover" />
+          <Image {...heroImages.logisticsDelivery} alt={heroImages.logisticsDelivery.alt} className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
@@ -166,7 +167,7 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.5)}
           className={`${deviceClass} w-full h-full`}
         >
-          <Image src="https://picsum.photos/id/201/800/400" alt="Harvest" width={800} height={400} className="w-full h-full object-cover" />
+          <Image {...heroImages.harvestWide} alt={heroImages.harvestWide.alt} className="w-full h-full object-cover" />
         </motion.div>
       </motion.div>
 
