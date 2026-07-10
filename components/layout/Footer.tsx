@@ -93,7 +93,7 @@ export default function Footer() {
       <div className="border-t border-steel/20 relative z-10">
         <div className="max-w-max-width mx-auto px-gutter w-full py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-silver/50 font-medium">
           <span>© {new Date().getFullYear()} MechLink</span>
-          <span className="hidden md:inline-block">Ghana · Pan-Africa</span>
+          <span className="hidden md:inline-block">Ghana, Scaling Pan-African</span>
           <ThemeToggle />
         </div>
       </div>
