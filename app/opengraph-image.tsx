@@ -14,6 +14,7 @@ export default async function Image() {
   const ttnormsRegular = readFileSync(join(process.cwd(), 'app/fonts/TTNorms-Regular.otf'));
   const ttnormsMedium = readFileSync(join(process.cwd(), 'app/fonts/TTNorms-Medium.otf'));
   const ttnormsBold = readFileSync(join(process.cwd(), 'app/fonts/TTNorms-Bold.otf'));
+  const markBase64 = readFileSync(join(process.cwd(), 'public/mechlink-mark.png')).toString('base64');
 
   return new ImageResponse(
     (
@@ -66,13 +67,16 @@ export default async function Image() {
             justifyContent: 'center',
             width: '120px',
             height: '120px',
-            background: '#2FCB8F', // --accent-primary in dark mode
-            borderRadius: '28px',
             marginBottom: '48px',
-            boxShadow: '0 24px 48px rgba(0,0,0,0.6)',
           }}
         >
-          <span style={{ fontSize: '64px', fontWeight: 900, color: '#081410' }}>M</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`data:image/png;base64,${markBase64}`}
+            width={120}
+            height={86}
+            alt="MechLink"
+          />
         </div>
 
         {/* Typography Core */}
