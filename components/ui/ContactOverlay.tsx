@@ -263,7 +263,7 @@ export function ContactOverlay() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => setStep('budget')}
-                          className="bg-cloud cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full shadow-lg flex items-center gap-3"
+                          className="bg-accent-primary cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full shadow-lg flex items-center gap-3"
                         >
                           Continue <ArrowRight size={16} />
                         </motion.button>
@@ -354,7 +354,7 @@ export function ContactOverlay() {
                       <button 
                         onClick={() => setStep('contact')}
                         disabled={!message.trim()}
-                        className="bg-cloud cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        className="bg-accent-primary cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
                         Continue
                         <ArrowRight size={18} />
@@ -432,7 +432,7 @@ export function ContactOverlay() {
                       <button 
                         type="submit"
                         disabled={isSubmitting || !name || !email}
-                        className="bg-cloud cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        className="bg-accent-primary cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
                         {isSubmitting ? "Transmitting..." : "Submit Inquiry"}
                         {!isSubmitting && <ArrowRight size={18} />}
@@ -509,7 +509,7 @@ export function ContactOverlay() {
                       <button 
                         type="submit"
                         disabled={isSubmitting || !name || !email || !message}
-                        className="bg-cloud cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        className="bg-accent-primary cursor-pointer text-void font-bold tracking-widest uppercase text-sm px-10 py-5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
                         {isSubmitting ? "Sending..." : "Send Message"}
                         {!isSubmitting && <ArrowRight size={18} />}

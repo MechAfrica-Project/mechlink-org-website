@@ -12,7 +12,7 @@ export function Button({ variant = "primary", size = "md", href, children, class
   const baseClasses = "transition-all duration-300 font-bold inline-flex items-center justify-center cursor-pointer";
   
   const variants = {
-    primary: "bg-cloud text-void hover:scale-105 active:scale-95 shadow-lg tracking-widest uppercase text-label-caps",
+    primary: "bg-accent-primary text-void hover:scale-105 active:scale-95 shadow-lg tracking-widest uppercase text-label-caps",
     ghost: "bg-transparent border border-cloud text-cloud hover:bg-cloud hover:text-void hover:scale-105 active:scale-95 tracking-widest uppercase text-label-caps",
     text: "text-cloud text-link-hover font-medium hover:opacity-80 gap-2 group/link",
     link: "text-cloud hover:opacity-80 transition-opacity",
