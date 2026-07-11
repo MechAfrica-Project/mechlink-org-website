@@ -88,6 +88,27 @@ export default function FeaturedProjectsSection() {
               MechAfrica connects farmers with mechanization, crop care, and logistics providers through
               an offline-first, mobile and USSD-based platform — starting in Ghana, scaling pan-African.
             </p>
+
+            <div className="flex items-center gap-8">
+              <div>
+                <p className="text-2xl font-black text-cloud tracking-tight">50,000+</p>
+                <p className="text-xs uppercase tracking-wide text-silver/70 mt-1">Farmers</p>
+              </div>
+              <div className="w-px h-10 bg-steel" />
+              <div>
+                <p className="text-2xl font-black text-cloud tracking-tight">1,000+</p>
+                <p className="text-xs uppercase tracking-wide text-silver/70 mt-1">Providers</p>
+              </div>
+            </div>
+
+            <a
+              href="https://www.mechafrica.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-cloud font-medium hover:text-accent-primary transition-colors w-fit"
+            >
+              Visit MechAfrica <ArrowUpRight className="w-4 h-4" />
+            </a>
           </motion.div>
 
         </div>

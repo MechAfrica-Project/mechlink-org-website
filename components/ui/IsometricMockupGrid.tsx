@@ -85,9 +85,11 @@ export default function IsometricMockupGrid() {
           initial={animProps.initial} whileInView={animProps.whileInView} viewport={animProps.viewport} transition={animProps.transition(0.3)}
           className={`${deviceClass} w-full h-full p-4 2xl:p-8 flex flex-col justify-center`}
         >
-          <h3 className="text-2xl 2xl:text-4xl font-black tracking-tighter text-[#1a1a1a] mb-2 2xl:mb-4">*920#</h3>
+          <h3 className="text-2xl 2xl:text-4xl font-black tracking-tighter text-[#1a1a1a] mb-2 2xl:mb-4">*928*123#</h3>
           <div className="flex gap-2 2xl:gap-4">
-             <div className="w-4 h-4 2xl:w-8 2xl:h-8 rounded-full border border-gray-200 shrink-0"></div>
+             <div className="relative w-4 h-4 2xl:w-8 2xl:h-8 shrink-0">
+               <Image src="/images/brand/mechafrica-icon.png" alt="MechAfrica" fill sizes="32px" className="object-contain" />
+             </div>
              <div>
                 <h4 className="font-bold text-[10px] 2xl:text-sm text-[#1a1a1a]">offline-first by design</h4>
                 <p className="text-[8px] 2xl:text-xs text-gray-500 leading-relaxed mt-1">No smartphone or internet required to book a service.</p>
