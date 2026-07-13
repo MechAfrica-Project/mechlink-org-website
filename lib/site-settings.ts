@@ -6,7 +6,6 @@ const fallback = {
   careersEmail: "careers@mechlink.africa",
   linkedinUrl: "https://linkedin.com/company/mechlink",
   twitterUrl: "https://twitter.com/mechlinkafrica",
-  mechafricaUrl: "https://www.mechafrica.com/",
 };
 
 export async function getSiteSettings() {

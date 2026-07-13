@@ -8,12 +8,11 @@ export async function updateSiteSettings(formData: FormData) {
   const careersEmail = String(formData.get("careersEmail") ?? "").trim();
   const linkedinUrl = String(formData.get("linkedinUrl") ?? "").trim();
   const twitterUrl = String(formData.get("twitterUrl") ?? "").trim();
-  const mechafricaUrl = String(formData.get("mechafricaUrl") ?? "").trim();
 
   await prisma.siteSettings.upsert({
     where: { id: "singleton" },
-    update: { contactEmail, careersEmail, linkedinUrl, twitterUrl, mechafricaUrl },
-    create: { id: "singleton", contactEmail, careersEmail, linkedinUrl, twitterUrl, mechafricaUrl },
+    update: { contactEmail, careersEmail, linkedinUrl, twitterUrl },
+    create: { id: "singleton", contactEmail, careersEmail, linkedinUrl, twitterUrl },
   });
 
   // These values are read on nearly every public page (Footer, homepage, careers).

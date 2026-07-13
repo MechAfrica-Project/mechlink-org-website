@@ -210,7 +210,28 @@ None of the three pillars is the "real" business propping up hobbies on the side
     });
   }
 
-  // --- Featured "MechAfrica" project cards ---
+  // --- Products (MechAfrica is the first; more can be added later purely via admin) ---
+  const mechafrica = await prisma.product.upsert({
+    where: { slug: "mechafrica" },
+    update: {},
+    create: {
+      slug: "mechafrica",
+      name: "MechAfrica",
+      tagline: "The product we build and own",
+      description:
+        "MechAfrica connects farmers with mechanization, crop care, and logistics providers through an offline-first, mobile and USSD-based platform — starting in Ghana, scaling pan-African.",
+      url: "https://www.mechafrica.com/",
+      logoUrl: null,
+      status: "live",
+      stats: [
+        { label: "Farmers", value: "50,000+" },
+        { label: "Providers", value: "1,000+" },
+      ],
+      order: 0,
+    },
+  });
+
+  // --- MechAfrica feature cards ---
   const projects = [
     { title: "Farmer ↔ Provider Matching", tags: ["Mechanization", "Crop Care", "Logistics"], imageUrl: "/images/features/feature-farmer-provider-matching.png", order: 0 },
     { title: "Offline-First, USSD Access", tags: ["No Smartphone Required", "No Internet Required"], imageUrl: "/images/features/feature-offline-ussd-access.png", order: 1 },
@@ -219,7 +240,7 @@ None of the three pillars is the "real" business propping up hobbies on the side
   ];
   for (const project of projects) {
     const existing = await prisma.project.findFirst({ where: { title: project.title } });
-    if (!existing) await prisma.project.create({ data: project });
+    if (!existing) await prisma.project.create({ data: { ...project, productId: mechafrica.id } });
   }
 
   // --- Services ---
@@ -271,7 +292,6 @@ None of the three pillars is the "real" business propping up hobbies on the side
       careersEmail: "careers@mechlink.africa",
       linkedinUrl: "https://linkedin.com/company/mechlink",
       twitterUrl: "https://twitter.com/mechlinkafrica",
-      mechafricaUrl: "https://www.mechafrica.com/",
     },
   });
 

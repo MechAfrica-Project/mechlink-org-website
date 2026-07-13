@@ -14,6 +14,7 @@ export default async function AdminSettingsPage() {
       <h1 className="text-3xl font-bold text-cloud tracking-tight mb-2">Settings</h1>
       <p className="text-silver mb-10">
         Contact emails and social links used across the public site (footer, contact section, careers).
+        Product URLs are managed per-product under Products.
       </p>
 
       <form action={updateSiteSettings} className="flex flex-col gap-6 max-w-[560px]">
@@ -35,11 +36,6 @@ export default async function AdminSettingsPage() {
         <div>
           <label className={labelClasses}>Twitter / X URL</label>
           <input name="twitterUrl" type="url" required defaultValue={settings.twitterUrl} className={inputClasses} />
-        </div>
-
-        <div>
-          <label className={labelClasses}>MechAfrica Product URL</label>
-          <input name="mechafricaUrl" type="url" required defaultValue={settings.mechafricaUrl} className={inputClasses} />
         </div>
 
         <Button type="submit" className="w-fit">

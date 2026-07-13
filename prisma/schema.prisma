@@ -53,12 +53,29 @@ model CareerRole {
   updatedAt     DateTime @updatedAt
 }
 
+model Product {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  tagline     String
+  description String    @db.Text
+  url         String?
+  logoUrl     String?
+  status      String    @default("live") // live | beta | coming-soon
+  stats       Json?     // array of { label, value }, e.g. [{ "label": "Farmers", "value": "50,000+" }]
+  order       Int       @default(0)
+  updatedAt   DateTime  @updatedAt
+  features    Project[]
+}
+
 model Project {
-  id       String   @id @default(cuid())
-  title    String
-  tags     String[]
-  imageUrl String?
-  order    Int      @default(0)
+  id        String   @id @default(cuid())
+  title     String
+  tags      String[]
+  imageUrl  String?
+  order     Int      @default(0)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Service {
@@ -86,12 +103,11 @@ model FaqItem {
 }
 
 model SiteSettings {
-  id            String @id @default("singleton")
-  contactEmail  String
-  careersEmail  String
-  linkedinUrl   String
-  twitterUrl    String
-  mechafricaUrl String
+  id           String @id @default("singleton")
+  contactEmail String
+  careersEmail String
+  linkedinUrl  String
+  twitterUrl   String
 }
 
 model ContactSubmission {
