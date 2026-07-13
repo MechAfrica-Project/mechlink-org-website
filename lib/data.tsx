@@ -147,35 +147,3 @@ export const roles = [
     )
   }
 ];
-
-// TODO: placeholder roster — replace remaining entries with real people before this page ships.
-// `initials` drives the avatar shown until a real `photo` path is added.
-export const teamMembers = [
-  {
-    slug: "elvis-gyasi-owusu",
-    name: "Elvis Gyasi Owusu",
-    initials: "EO",
-    title: "Co-Founder & CEO",
-    bio: "Co-Founder and CEO of MechLink, leading the team and driving MechAfrica's front-end architecture from product vision through execution.",
-    photo: "/images/team/elvis-gyasi-owusu.jpg",
-    linkedin: "https://www.linkedin.com/in/elvis-gyasi-owusu-0a4044193/",
-  },
-  {
-    slug: "emmanuel-lomotey",
-    name: "Emmanuel Lomotey",
-    initials: "EL",
-    title: "Co-Founder & CTO",
-    bio: "Co-Founder and CTO of MechLink, leading backend architecture for MechAfrica — building secure, scalable systems that connect farmers and service providers across Ghana.",
-    photo: null,
-    linkedin: "https://www.linkedin.com/in/emmanuellomotey/",
-  },
-  {
-    slug: "add-team-member-3",
-    name: "Add Name",
-    initials: "??",
-    title: "Add Title",
-    bio: "Add a 1-2 sentence bio.",
-    photo: null,
-    linkedin: "",
-  },
-];

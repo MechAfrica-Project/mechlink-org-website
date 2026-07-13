@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { prisma } from "@/lib/prisma";
 
 // We initialize conditionally inside the handler or check if the key exists
 // to prevent Next.js from crashing on boot if the .env variable is missing.
@@ -7,7 +8,7 @@ import { Resend } from "resend";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, phone, message, context, budget } = body;
+    const { name, email, phone, message, context, budget, intent } = body;
 
     if (!name || !email) {
       return NextResponse.json(
@@ -15,6 +16,20 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    // 0. Persist the submission first, so a lead is never lost even if email/webhook
+    // delivery below fails or isn't configured.
+    await prisma.contactSubmission.create({
+      data: {
+        name,
+        email,
+        phone: phone || null,
+        message: message || null,
+        context: Array.isArray(context) ? context : [],
+        budget: budget || null,
+        intent: intent || "project",
+      },
+    });
 
     // 1. Send Email via Resend
     // Note: To send from an actual domain, you must verify the domain in Resend.

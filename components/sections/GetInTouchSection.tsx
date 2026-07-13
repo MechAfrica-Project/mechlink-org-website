@@ -7,7 +7,7 @@ import { Button } from "../ui/Button";
 import { useContact } from "../context/ContactContext";
 import { ArrowUpRight } from "lucide-react";
 
-export default function GetInTouchSection() {
+export default function GetInTouchSection({ contactEmail }: { contactEmail: string }) {
   const { openContact } = useContact();
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -35,10 +35,10 @@ export default function GetInTouchSection() {
 
           <div className="lg:col-span-8 flex justify-start lg:justify-end">
             <a
-              href="mailto:hello@mechlink.africa"
+              href={`mailto:${contactEmail}`}
               className="text-[11px] uppercase tracking-[0.22em] text-silver/70 hover:text-cloud font-medium transition-colors duration-300"
             >
-              hello@mechlink.africa
+              {contactEmail}
             </a>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function GetInTouchSection() {
           </Button>
 
           <a
-            href="mailto:hello@mechlink.africa"
+            href={`mailto:${contactEmail}`}
             className="text-silver hover:text-cloud transition-colors duration-300 text-sm font-medium underline underline-offset-4 decoration-steel/40 hover:decoration-silver"
           >
             Or email us directly

@@ -34,7 +34,7 @@ const projects = [
   },
 ];
 
-export default function FeaturedProjectsSection() {
+export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaUrl: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -102,7 +102,7 @@ export default function FeaturedProjectsSection() {
             </div>
 
             <a
-              href="https://www.mechafrica.com/"
+              href={mechafricaUrl}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 text-cloud font-medium hover:text-accent-primary transition-colors w-fit"

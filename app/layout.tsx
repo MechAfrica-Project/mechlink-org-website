@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
-import AmbientMouseGlow from "../components/ui/AmbientMouseGlow";
 import { ThemeProvider } from "../components/providers/ThemeProvider";
-import { SmoothScrollProvider } from "../components/providers/SmoothScrollProvider";
-import { ContactProvider } from "../components/context/ContactContext";
-import { ContactOverlay } from "../components/ui/ContactOverlay";
 
 const ttnorms = localFont({
   src: [
@@ -56,20 +50,7 @@ export default function RootLayout({
       </head>
       <body className="bg-void text-cloud min-h-screen selection:bg-surface-variant selection:text-cloud flex flex-col" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <SmoothScrollProvider>
-            <ContactProvider>
-            {/* Global ambient mouse tracker */}
-            <AmbientMouseGlow />
-            
-            <Navbar />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-            
-            <ContactOverlay />
-            </ContactProvider>
-          </SmoothScrollProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>

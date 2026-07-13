@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ProseLayout from "@/components/ui/ProseLayout";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, MapPin, Building, Briefcase } from "lucide-react";
+import { getSiteSettings } from "@/lib/site-settings";
 
 type Params = {
   slug: string;
@@ -15,6 +16,8 @@ export default async function CareerPost({ params }: { params: Promise<Params> }
   if (!role) {
     notFound();
   }
+
+  const settings = await getSiteSettings();
 
   return (
     <main className="min-h-screen bg-void pt-20 pb-32">
@@ -64,7 +67,7 @@ export default async function CareerPost({ params }: { params: Promise<Params> }
               </p>
               
               <a 
-                href={`mailto:careers@mechlink.africa?subject=Application: ${role.title}`} 
+                href={`mailto:${settings.careersEmail}?subject=Application: ${role.title}`} 
                 className="group flex items-center justify-center gap-3 bg-cloud text-void px-8 py-4 rounded-full font-medium hover:bg-silver transition-all duration-300 w-full"
               >
                 Apply via Email

@@ -1,25 +1,25 @@
-"use client";
-
 import Image from "next/image";
 import PageHeader from "@/components/ui/PageHeader";
-import { teamMembers } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  const teamMembers = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
+
   return (
     <main className="min-h-screen bg-void pt-20">
       <PageHeader
         eyebrow="Leadership"
         title="The people behind MechLink."
-        subtitle="Add a short paragraph here introducing the founding team and what brought them together to build MechLink."
+        subtitle="Meet the team building Africa's agricultural infrastructure engine."
       />
 
       <section className="max-w-[1100px] mx-auto px-gutter w-full pb-40">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
           {teamMembers.map((member) => (
-            <div key={member.slug} className="flex flex-col items-center text-center gap-1">
+            <div key={member.id} className="flex flex-col items-center text-center gap-1">
               <div className="relative w-40 h-40 rounded-full overflow-hidden bg-graphite border border-steel flex items-center justify-center mb-5 shrink-0">
-                {member.photo ? (
-                  <Image src={member.photo} alt={member.name} fill sizes="160px" className="object-cover" />
+                {member.photoUrl ? (
+                  <Image src={member.photoUrl} alt={member.name} fill sizes="160px" className="object-cover" />
                 ) : (
                   <span className="text-2xl font-black text-accent-primary">{member.initials}</span>
                 )}

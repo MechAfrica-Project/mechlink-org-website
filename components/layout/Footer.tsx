@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "../ui/Logo";
 import { ThemeToggle } from "../ui/ThemeToggle";
+import { getSiteSettings } from "@/lib/site-settings";
 
 const FooterLink = ({ href, children, isExternal = false }: { href: string; children: React.ReactNode; isExternal?: boolean }) => {
   const Comp = isExternal ? "a" : Link;
@@ -14,7 +15,9 @@ const FooterLink = ({ href, children, isExternal = false }: { href: string; chil
   );
 };
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await getSiteSettings();
+
   return (
     <footer className="w-full relative overflow-hidden bg-void border-t border-steel/30 pt-16 md:pt-24 lg:pt-32">
       
@@ -79,9 +82,9 @@ export default function Footer() {
                 Connect
               </h4>
               <div className="flex flex-col gap-2">
-                <FooterLink href="mailto:hello@mechlink.africa" isExternal>Email Us</FooterLink>
-                <FooterLink href="https://linkedin.com/company/mechlink" isExternal>LinkedIn</FooterLink>
-                <FooterLink href="https://twitter.com/mechlinkafrica" isExternal>Twitter</FooterLink>
+                <FooterLink href={`mailto:${settings.contactEmail}`} isExternal>Email Us</FooterLink>
+                <FooterLink href={settings.linkedinUrl} isExternal>LinkedIn</FooterLink>
+                <FooterLink href={settings.twitterUrl} isExternal>Twitter</FooterLink>
               </div>
             </div>
 

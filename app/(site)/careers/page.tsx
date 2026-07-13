@@ -1,12 +1,13 @@
-"use client";
-
 import PageHeader from "@/components/ui/PageHeader";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { roles } from "@/lib/data";
+import { getSiteSettings } from "@/lib/site-settings";
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const settings = await getSiteSettings();
+
   return (
     <main className="min-h-screen bg-void pt-20">
       <PageHeader
@@ -80,7 +81,7 @@ export default function CareersPage() {
           
           <div className="mt-16 text-center">
             <p className="text-silver text-lg mb-6">Don&apos;t see a perfect fit? We&apos;re always open to meeting great talent.</p>
-            <a href="mailto:careers@mechlink.africa" className="inline-flex items-center gap-2 text-cloud font-medium hover:text-silver transition-colors">
+            <a href={`mailto:${settings.careersEmail}`} className="inline-flex items-center gap-2 text-cloud font-medium hover:text-silver transition-colors">
               Email us your resume <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>
