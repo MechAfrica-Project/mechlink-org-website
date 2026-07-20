@@ -28,7 +28,7 @@ const ttnorms = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NODE_ENV === "production"
-      ? "https://mechlink.org" // TODO: confirm the real production domain
+      ? "https://mechlink.org"
       : "http://localhost:3000"
   ),
   title: "MechLink — Africa's Agricultural Infrastructure Engine",
