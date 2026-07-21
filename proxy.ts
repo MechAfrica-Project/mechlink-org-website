@@ -7,6 +7,11 @@ import { NextResponse } from "next/server";
 // resolves there.
 const ADMIN_HOSTS = new Set(["admin.mechlink.org", "admin.localhost"]);
 
+// The PWA manifest and its icon must be fetchable without a session —
+// browsers request these to decide whether to offer "install", including
+// from the (logged-out) login screen.
+const PUBLIC_ADMIN_ASSETS = new Set(["/admin/manifest.webmanifest", "/admin/icon-512"]);
+
 export default auth((req) => {
   const { nextUrl } = req;
   const host = req.headers.get("host")?.split(":")[0] ?? "";
@@ -15,6 +20,7 @@ export default auth((req) => {
   // Any other request to "/" (the public homepage on the main domain, or a
   // stray host hitting root) is untouched.
   if (nextUrl.pathname === "/" && !isAdminRoot) return;
+  if (PUBLIC_ADMIN_ASSETS.has(nextUrl.pathname)) return;
 
   const isLoggedIn = !!req.auth;
   const isLoginPage = nextUrl.pathname === "/admin/login";

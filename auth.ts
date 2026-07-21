@@ -6,6 +6,10 @@ import { prisma } from "./lib/prisma";
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   pages: { signIn: "/admin/login" },
+  // The admin panel is served from both mechlink.org/admin and
+  // admin.mechlink.org — trust whatever Host header the request arrives
+  // with rather than requiring it to match a single configured AUTH_URL.
+  trustHost: true,
   providers: [
     Credentials({
       credentials: {
