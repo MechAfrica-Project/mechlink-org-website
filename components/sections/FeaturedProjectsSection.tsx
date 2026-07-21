@@ -4,8 +4,16 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { AnimatedSectionBadge } from "../ui/AnimatedSectionBadge";
 import { featureImages } from "../../lib/images";
+import { useLenis } from "../providers/SmoothScrollProvider";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const projects = [
   {
@@ -35,10 +43,72 @@ const projects = [
 ];
 
 export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaUrl: string }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  // Set only while the desktop scrub timeline is live; doubles as the
+  // "is GSAP currently driving this gallery?" flag.
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const lenisRef = useLenis();
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+
+    // Desktop only, and only when motion is welcome: on touch screens the
+    // native swipe below is a better interaction than hijacking page scroll.
+    mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      const viewport = scrollRef.current;
+      const track = trackRef.current;
+      if (!viewport || !track) return;
+
+      // Re-measured on every refresh so it survives resizes and font loads.
+      const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+      if (distance() === 0) return;
+
+      // GSAP owns horizontal movement here, so take the native scroller out of
+      // play (restored in the cleanup below).
+      viewport.style.overflowX = "hidden";
+
+      // Deliberately NOT pinned. This section is ~1100px tall against a typical
+      // 900px laptop viewport, so pinning it clips the badge and heading off the
+      // top — and the track only overflows by ~440px, too little to justify
+      // hijacking the page scroll. Instead the cards drift across while the
+      // section passes through view, which needs no pin and no scroll-jacking.
+      const tween = gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          // Hold the track at rest until the section is actually framed under
+          // the nav — starting earlier means the first card is already clipped
+          // while the reader is still taking the section in.
+          start: "top top",
+          end: "bottom center",
+          scrub: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            setActiveIndex(Math.round(self.progress * (projects.length - 1)));
+          },
+        },
+      });
+
+      scrollTriggerRef.current = tween.scrollTrigger ?? null;
+
+      return () => {
+        scrollTriggerRef.current = null;
+        viewport.style.overflowX = "";
+        gsap.set(track, { clearProps: "x" });
+      };
+    });
+
+    return () => mm.revert();
+  }, { scope: galleryRef });
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    // While GSAP drives the track there is no native scrolling to read.
+    if (scrollTriggerRef.current) return;
     const container = e.currentTarget;
     if (container.scrollWidth === container.clientWidth) return;
     const scrollPercentage = container.scrollLeft / (container.scrollWidth - container.clientWidth);
@@ -47,9 +117,22 @@ export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaU
   };
 
   const scrollTo = (index: number) => {
+    const progress = index / (projects.length - 1);
+    const st = scrollTriggerRef.current;
+
+    // GSAP mode: dots map onto page scroll position, not container scrollLeft.
+    if (st) {
+      const target = st.start + (st.end - st.start) * progress;
+      // Go through Lenis so it doesn't fight a native smooth scroll.
+      const lenis = lenisRef?.current;
+      if (lenis) lenis.scrollTo(target, { duration: 1 });
+      else window.scrollTo({ top: target, behavior: "smooth" });
+      return;
+    }
+
     const container = scrollRef.current;
     if (!container) return;
-    const targetLeft = (container.scrollWidth - container.clientWidth) * (index / (projects.length - 1));
+    const targetLeft = (container.scrollWidth - container.clientWidth) * progress;
     container.scrollTo({ left: targetLeft, behavior: 'smooth' });
   };
 
@@ -65,7 +148,7 @@ export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaU
   };
 
   return (
-    <section id="product" className="relative py-12 md:py-16 lg:py-20 xl:py-32 bg-void overflow-hidden">
+    <section ref={sectionRef} id="product" className="relative py-12 md:py-16 lg:py-20 xl:py-32 bg-void overflow-hidden">
       <div className="max-w-max-width mx-auto px-gutter w-full z-10 relative">
 
         {/* Header Split Layout */}
@@ -115,19 +198,22 @@ export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaU
       </div>
 
       {/* Edge-to-edge Horizontal Scrolling Slider */}
-      <div className="w-full relative px-gutter max-w-max-width mx-auto">
-        <motion.div 
+      <div ref={galleryRef} className="w-full relative px-gutter max-w-max-width mx-auto">
+        <motion.div
           ref={scrollRef}
           onScroll={handleScroll}
           data-lenis-prevent="true"
-          className="flex gap-6 lg:gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 overscroll-x-contain"
+          className="overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 overscroll-x-contain"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={animProps.viewport}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
         >
-          {projects.map((project, idx) => (
+        {/* Inner track: GSAP translates this while the wrapper above stays the
+            native scroller for touch / reduced-motion users. */}
+        <div ref={trackRef} className="flex gap-6 lg:gap-8">
+          {projects.map((project) => (
             <div 
               key={project.id} 
               className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[35vw] xl:w-[28vw] snap-center group cursor-pointer focus:outline-none"
@@ -167,6 +253,7 @@ export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaU
               </div>
             </div>
           ))}
+        </div>
         </motion.div>
 
         {/* Apple-style Bottom Paginator */}
