@@ -202,7 +202,11 @@ export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaU
         <motion.div
           ref={scrollRef}
           onScroll={handleScroll}
-          data-lenis-prevent="true"
+          // NOTE: intentionally no `data-lenis-prevent`. The desktop gallery is
+          // scrubbed by vertical page scroll, so blocking Lenis over this element
+          // would freeze the page (and the scrub) whenever the pointer is on a
+          // card. The native fallback uses horizontal touch/trackpad gestures,
+          // which Lenis (gestureOrientation: vertical) already ignores.
           className="overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 overscroll-x-contain"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           initial={{ opacity: 0, x: 50 }}
