@@ -5,6 +5,12 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { ContactProvider } from "@/components/context/ContactContext";
 import { ContactOverlay } from "@/components/ui/ContactOverlay";
 
+// Public pages read admin-managed content (team, site settings, product) from
+// the shared DB. Without this they are prerendered once at build time and never
+// reflect admin edits until a redeploy. Revalidating every 60s makes edits
+// appear within a minute while keeping pages CDN-cached and fast.
+export const revalidate = 60;
+
 export default function SiteLayout({
   children,
 }: Readonly<{
