@@ -2,41 +2,13 @@
 
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Quote, Boxes, Wrench, GraduationCap } from "lucide-react";
+import { Quote } from "lucide-react";
 import { AnimatedSectionBadge } from "../ui/AnimatedSectionBadge";
+import { iconFor } from "../../lib/icon-map";
 
-const testimonials = [
-  {
-    id: 1,
-    quote: "MechAfrica connects farmers with mechanization, crop care, and logistics providers through an offline-first, mobile and USSD-based platform — no smartphone or internet required.",
-    name: "MechAfrica",
-    role: "Product",
-    icon: Boxes,
-  },
-  {
-    id: 2,
-    quote: "Trained Field Agents bridge the digital divide, handling onboarding and building localized trust directly in rural communities — the human layer beneath the platform.",
-    name: "Field Agent Network",
-    role: "Product",
-    icon: Boxes,
-  },
-  {
-    id: 3,
-    quote: "We design and deliver custom software solutions under contract — bringing the same engineering, AI, and product discipline behind MechAfrica to organizations that need technology built right.",
-    name: "MechLink",
-    role: "Services",
-    icon: Wrench,
-  },
-  {
-    id: 4,
-    quote: "We train and mentor aspiring tech professionals through practical, cohort-based learning programs — with the best graduates building on real MechLink products and client projects.",
-    name: "MechLink",
-    role: "Talent",
-    icon: GraduationCap,
-  },
-];
+type Testimonial = { id: string; quote: string; name: string; role: string; iconName: string };
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -107,9 +79,11 @@ export default function TestimonialsSection() {
           viewport={animProps.viewport}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
         >
-          {testimonials.map((test, idx) => (
-            <div 
-              key={test.id} 
+          {testimonials.map((test) => {
+            const Icon = iconFor(test.iconName);
+            return (
+            <div
+              key={test.id}
               className="flex-shrink-0 w-[90vw] sm:w-[60vw] md:w-[45vw] lg:w-[35vw] snap-center"
             >
               <div className="p-10 lg:p-12 border border-steel rounded-2xl bg-void flex flex-col gap-8 h-full relative group hover:-translate-y-2 transition-transform duration-500">
@@ -128,7 +102,7 @@ export default function TestimonialsSection() {
                 {/* Pillar Details */}
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-carbon border border-steel flex items-center justify-center transition-colors duration-500 group-hover:border-accent-primary/50 group-hover:shadow-[0_0_15px_var(--accent-glow)]/10">
-                    <test.icon className="w-6 h-6 text-silver transition-colors duration-500 group-hover:text-accent-primary" strokeWidth={2} />
+                    <Icon className="w-6 h-6 text-silver transition-colors duration-500 group-hover:text-accent-primary" strokeWidth={2} />
                   </div>
                   <div className="flex flex-col">
                     <h4 className="text-cloud font-bold">{test.name}</h4>
@@ -138,7 +112,8 @@ export default function TestimonialsSection() {
 
               </div>
             </div>
-          ))}
+            );
+          })}
         </motion.div>
 
         {/* Apple-style Bottom Paginator */}

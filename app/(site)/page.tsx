@@ -8,12 +8,17 @@ import GetInTouchSection from "@/components/sections/GetInTouchSection";
 import { SectionSwoop } from "@/components/ui/SectionSwoop";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getProductBySlug } from "@/lib/products";
+import { getServices, getTestimonials } from "@/lib/content";
 
 type Stat = { label: string; value: string };
 
 export default async function Home() {
-  const settings = await getSiteSettings();
-  const mechafrica = await getProductBySlug("mechafrica");
+  const [settings, mechafrica, services, testimonials] = await Promise.all([
+    getSiteSettings(),
+    getProductBySlug("mechafrica"),
+    getServices(),
+    getTestimonials(),
+  ]);
 
   // Stats are stored as JSON on the product; fall back gracefully if unset.
   const mechafricaStats = (Array.isArray(mechafrica?.stats) ? mechafrica.stats : []) as Stat[];
@@ -32,11 +37,12 @@ export default async function Home() {
             "MechAfrica connects farmers with mechanization, crop care, and logistics providers through an offline-first, mobile and USSD-based platform — starting in Ghana, scaling pan-African."
           }
           stats={mechafricaStats}
+          features={mechafrica?.features ?? []}
         />
       </SectionSwoop>
-      <SectionSwoop><ServicesSection /></SectionSwoop>
+      <SectionSwoop><ServicesSection services={services} /></SectionSwoop>
       <SectionSwoop><WhyChooseUsSection /></SectionSwoop>
-      <SectionSwoop><TestimonialsSection /></SectionSwoop>
+      <SectionSwoop><TestimonialsSection testimonials={testimonials} /></SectionSwoop>
       <SectionSwoop fullHeight={false}><GetInTouchSection contactEmail={settings.contactEmail} /></SectionSwoop>
     </>
   );

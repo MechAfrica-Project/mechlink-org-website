@@ -1,6 +1,7 @@
-import { roles } from "@/lib/data";
+import { getCareerRole } from "@/lib/content";
 import { notFound } from "next/navigation";
 import ProseLayout from "@/components/ui/ProseLayout";
+import { Markdown } from "@/components/ui/Markdown";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, MapPin, Building, Briefcase } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -11,9 +12,9 @@ type Params = {
 
 export default async function CareerPost({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const role = roles.find((r) => r.slug === slug);
+  const role = await getCareerRole(slug);
 
-  if (!role) {
+  if (!role || !role.isOpen) {
     notFound();
   }
 
@@ -54,7 +55,7 @@ export default async function CareerPost({ params }: { params: Promise<Params> }
             </div>
 
             <ProseLayout className="max-w-none">
-              {role.description}
+              <Markdown>{role.descriptionMd}</Markdown>
             </ProseLayout>
           </div>
 
