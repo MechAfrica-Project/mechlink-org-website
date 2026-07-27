@@ -1,6 +1,7 @@
-import { articles } from "@/lib/data";
+import { getBlogPost } from "@/lib/content";
 import { notFound } from "next/navigation";
 import ProseLayout from "@/components/ui/ProseLayout";
+import { Markdown } from "@/components/ui/Markdown";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
@@ -9,9 +10,13 @@ type Params = {
   slug: string;
 };
 
+function formatDate(d: Date) {
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
+
 export default async function BlogPost({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
+  const article = await getBlogPost(slug);
 
   if (!article) {
     notFound();
@@ -21,9 +26,9 @@ export default async function BlogPost({ params }: { params: Promise<Params> }) 
     <main className="min-h-screen bg-void pb-32">
       {/* Cinematic Hero */}
       <div className="relative w-full h-[60vh] min-h-[500px] bg-carbon flex items-end">
-        {article.coverImage && (
-          <Image 
-            src={article.coverImage} 
+        {article.coverImageUrl && (
+          <Image
+            src={article.coverImageUrl}
             alt={article.title}
             fill
             priority
@@ -59,7 +64,7 @@ export default async function BlogPost({ params }: { params: Promise<Params> }) 
           <div className="flex items-center gap-4 mb-6 text-sm font-medium tracking-wider uppercase">
             <span className="text-cloud">{article.category}</span>
             <span className="text-steel">•</span>
-            <span className="text-silver/80">{article.date}</span>
+            <span className="text-silver/80">{formatDate(article.publishedAt)}</span>
             <span className="text-steel">•</span>
             <span className="text-silver/80">{article.readTime}</span>
           </div>
@@ -78,7 +83,7 @@ export default async function BlogPost({ params }: { params: Promise<Params> }) 
           </p>
           
           <ProseLayout>
-            {article.content}
+            <Markdown>{article.contentMd}</Markdown>
           </ProseLayout>
         </div>
       </div>

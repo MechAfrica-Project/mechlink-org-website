@@ -2,11 +2,11 @@ import PageHeader from "@/components/ui/PageHeader";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-import { roles } from "@/lib/data";
+import { getOpenCareerRoles } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 
 export default async function CareersPage() {
-  const settings = await getSiteSettings();
+  const [settings, roles] = await Promise.all([getSiteSettings(), getOpenCareerRoles()]);
 
   return (
     <main className="min-h-screen bg-void pt-20">
