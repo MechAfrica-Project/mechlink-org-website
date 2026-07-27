@@ -62,8 +62,8 @@ export default function TermsPage() {
           If you have any questions about these Terms and Conditions, You can contact us:
         </p>
         <ul>
-          <li>By email: <strong>legal@mechlink.africa</strong></li>
-          <li>By visiting this page on our website: <a href="https://mechlink.africa/#contact">mechlink.africa/#contact</a></li>
+          <li>By email: <strong>legal@mechlink.org</strong></li>
+          <li>By visiting this page on our website: <a href="https://mechlink.org/#contact">mechlink.org/#contact</a></li>
         </ul>
       </ProseLayout>
     </main>

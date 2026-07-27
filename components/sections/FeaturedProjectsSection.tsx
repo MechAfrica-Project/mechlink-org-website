@@ -42,7 +42,19 @@ const projects = [
   },
 ];
 
-export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaUrl: string }) {
+type Stat = { label: string; value: string };
+
+export default function FeaturedProjectsSection({
+  mechafricaUrl,
+  tagline,
+  description,
+  stats,
+}: {
+  mechafricaUrl: string;
+  tagline: string;
+  description: string;
+  stats: Stat[];
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -165,24 +177,25 @@ export default function FeaturedProjectsSection({ mechafricaUrl }: { mechafricaU
             transition={animProps.transition(0.2)}
           >
             <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] text-cloud font-black tracking-tight leading-none">
-              The product we build and own
+              {tagline}
             </h2>
             <p className="text-lg text-silver max-w-[600px] leading-relaxed">
-              MechAfrica connects farmers with mechanization, crop care, and logistics providers through
-              an offline-first, mobile and USSD-based platform — starting in Ghana, scaling pan-African.
+              {description}
             </p>
 
-            <div className="flex items-center gap-8">
-              <div>
-                <p className="text-2xl font-black text-cloud tracking-tight">50,000+</p>
-                <p className="text-xs uppercase tracking-wide text-silver/70 mt-1">Farmers</p>
+            {stats.length > 0 && (
+              <div className="flex items-center gap-8">
+                {stats.map((stat, i) => (
+                  <div key={stat.label} className="flex items-center gap-8">
+                    {i > 0 && <div className="w-px h-10 bg-steel" />}
+                    <div>
+                      <p className="text-2xl font-black text-cloud tracking-tight">{stat.value}</p>
+                      <p className="text-xs uppercase tracking-wide text-silver/70 mt-1">{stat.label}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="w-px h-10 bg-steel" />
-              <div>
-                <p className="text-2xl font-black text-cloud tracking-tight">1,000+</p>
-                <p className="text-xs uppercase tracking-wide text-silver/70 mt-1">Providers</p>
-              </div>
-            </div>
+            )}
 
             <a
               href={mechafricaUrl}

@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     // Note: To send from an actual domain, you must verify the domain in Resend.
     // We default to 'onboarding@resend.dev' for testing if not configured.
     const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-    const toEmail = process.env.CONTACT_EMAIL || "hello@mechlink.africa";
+    const toEmail = process.env.CONTACT_EMAIL || "hello@mechlink.org";
 
     const emailHtml = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #09090B; color: #FAFAFA; padding: 40px; border-radius: 12px; border: 1px solid #26262D;">

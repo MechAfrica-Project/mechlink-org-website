@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       <PageHeader
         eyebrow="Legal"
         title="Privacy Policy"
-        subtitle="Last updated: July 7, 2026. This Privacy Policy describes how your personal information is collected, used, and shared when you visit mechlink.africa."
+        subtitle="Last updated: July 7, 2026. This Privacy Policy describes how your personal information is collected, used, and shared when you visit mechlink.org."
       />
 
       <ProseLayout>
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
         <hr />
         
         <p>
-          If you have questions and/or require more information, do not hesitate to contact us at <strong>privacy@mechlink.africa</strong>.
+          If you have questions and/or require more information, do not hesitate to contact us at <strong>privacy@mechlink.org</strong>.
         </p>
       </ProseLayout>
     </main>
