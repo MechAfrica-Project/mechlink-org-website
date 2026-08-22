@@ -210,6 +210,15 @@ html {
   .animate-marquee {
     animation: marquee 40s linear infinite;
   }
+  /* Hovering anywhere over the stream holds the run. */
+  .marquee-paused:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+    }
+  }
 
   /* Process Timeline Custom CSS */
   .timeline-gradient {

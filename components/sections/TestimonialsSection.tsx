@@ -1,140 +1,118 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
 import { AnimatedSectionBadge } from "../ui/AnimatedSectionBadge";
 import { iconFor } from "../../lib/icon-map";
 
 type Testimonial = { id: string; quote: string; name: string; role: string; iconName: string };
 
-export default function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const container = e.currentTarget;
-    if (container.scrollWidth === container.clientWidth) return;
-    const scrollPercentage = container.scrollLeft / (container.scrollWidth - container.clientWidth);
-    const index = Math.round(scrollPercentage * (testimonials.length - 1));
-    setActiveIndex(index);
-  };
-
-  const scrollTo = (index: number) => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const targetLeft = (container.scrollWidth - container.clientWidth) * (index / (testimonials.length - 1));
-    container.scrollTo({ left: targetLeft, behavior: 'smooth' });
-  };
-
-  const animProps = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-100px" },
-    transition: (delay: number) => ({
-      duration: 1,
-      ease: [0.16, 1, 0.3, 1] as const,
-      delay,
-    }),
-  };
+/**
+ * Three overlapping parts, ported from the Euodia testimonial design: a narrow
+ * identity panel (name + pillar), a chip that overlaps the panel's right edge —
+ * carrying the pillar icon in place of a photo — and the quote sitting outside
+ * the panel on the section background. Fixed widths so the marquee track
+ * measures predictably.
+ */
+function TestimonialItem({ testimonial }: { testimonial: Testimonial }) {
+  const Icon = iconFor(testimonial.iconName);
 
   return (
-    <section id="testimonials" className="relative py-12 md:py-16 lg:py-20 xl:py-32 bg-carbon overflow-hidden">
-      <div className="max-w-max-width mx-auto px-gutter w-full z-10 relative">
-        
-        {/* Header Split Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-8 lg:gap-8 items-start mb-8 md:mb-12 lg:mb-16 xl:mb-24">
-          
+    <article className="flex shrink-0 items-center">
+      {/* Identity panel — the only thing the light card holds */}
+      <div className="flex h-46.25 w-56 flex-none items-center rounded-3xl bg-void pl-10 shadow-[0_34px_64px_-34px_rgba(22,24,42,0.20),0_10px_26px_-16px_rgba(22,24,42,0.10)]">
+        {/* Width is what the chip leaves uncovered (224 − 40 padding − 64 overlap) */}
+        <div className="w-30">
+          <h3 className="text-[17px] font-bold leading-tight tracking-[-0.2px] text-cloud">
+            {testimonial.name}
+          </h3>
+          <p className="mt-1.75 text-[11px] font-light uppercase tracking-[0.12em] text-slate">
+            {testimonial.role}
+          </p>
+          <span aria-hidden="true" className="mt-3 block h-px w-12.5 bg-steel" />
+        </div>
+      </div>
+
+      {/* Icon chip overlaps the panel's right edge (in place of the photo) */}
+      <div className="relative z-2 -ml-16 flex h-42.5 w-42.5 shrink-0 items-center justify-center overflow-hidden rounded-[18px] border border-white/5 bg-graphite shadow-[0_22px_44px_-22px_rgba(20,22,40,0.38)]">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-70 [background:radial-gradient(60%_60%_at_50%_38%,var(--accent-glow)_0%,transparent_70%)]"
+        />
+        <Icon className="relative w-14 h-14 text-accent-primary" strokeWidth={1.5} />
+      </div>
+
+      {/* Quote sits outside the panel, on the section background */}
+      <p className="ml-7.25 w-61.25 shrink-0 text-sm font-light leading-[1.72] text-slate">
+        &ldquo;{testimonial.quote}&rdquo;
+      </p>
+    </article>
+  );
+}
+
+export default function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
+  const viewport = { once: true, margin: "-100px" } as const;
+  // Two copies: the track travels exactly one copy's width (-50%), so the seam
+  // lands on an identical frame and the loop reads as continuous.
+  const stream = [...testimonials, ...testimonials];
+
+  return (
+    <section
+      id="testimonials"
+      className="relative overflow-hidden bg-carbon py-12 md:py-16 lg:py-20 xl:py-32"
+    >
+      {/* Soft washes lifting the centre of the field */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-70
+                   [background:radial-gradient(58%_120%_at_22%_44%,var(--color-void)_0%,transparent_62%),radial-gradient(46%_100%_at_82%_46%,var(--color-void)_0%,transparent_70%)]"
+      />
+
+      {/* Hairline pinned to the far-left edge */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-0 w-0.75 bg-linear-to-b from-cloud/20 via-cloud/50 to-cloud/20"
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-max-width px-gutter">
+        <div className="mb-12 grid grid-cols-1 items-start gap-8 md:mb-16 lg:mb-20 lg:grid-cols-12">
           <AnimatedSectionBadge number="04" title="The Flywheel" highlight={true} className="lg:col-span-4" />
 
           <motion.div
-            className="flex flex-col gap-6 lg:col-span-8 2xl:col-span-8"
+            className="flex flex-col gap-6 lg:col-span-8"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={animProps.viewport}
-            transition={animProps.transition(0.2)}
+            viewport={viewport}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           >
-            <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] text-cloud font-black tracking-tight leading-none">
+            <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-black leading-none tracking-tight text-cloud">
               What each pillar makes possible
             </h2>
-            <p className="text-lg text-silver leading-relaxed">
+            <p className="max-w-150 text-lg leading-relaxed text-silver">
               Products, Services, and Talent aren&apos;t separate businesses — each one sharpens the other two.
             </p>
           </motion.div>
-
         </div>
-
       </div>
 
-      {/* Edge-to-edge Horizontal Scrolling Slider for Testimonials */}
-      <div className="w-full relative px-gutter max-w-max-width mx-auto">
-        <motion.div 
-          ref={scrollRef}
-          onScroll={handleScroll}
-          data-lenis-prevent="true"
-          className="flex gap-6 lg:gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-12 overscroll-x-contain"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={animProps.viewport}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        >
-          {testimonials.map((test) => {
-            const Icon = iconFor(test.iconName);
-            return (
-            <div
-              key={test.id}
-              className="flex-shrink-0 w-[90vw] sm:w-[60vw] md:w-[45vw] lg:w-[35vw] snap-center"
-            >
-              <div className="p-10 lg:p-12 border border-steel rounded-2xl bg-void flex flex-col gap-8 h-full relative group hover:-translate-y-2 transition-transform duration-500">
-                
-                {/* Quote Icon */}
-                <Quote className="w-12 h-12 text-steel group-hover:text-accent-primary transition-all duration-500 group-hover:drop-shadow-[0_0_15px_var(--accent-glow)] group-hover:-translate-y-1" strokeWidth={2} />
-                
-                {/* Quote Text */}
-                <p className="text-xl lg:text-2xl text-cloud leading-relaxed flex-grow">
-                  &quot;{test.quote}&quot;
-                </p>
-
-                {/* Divider */}
-                <div className="h-px w-full bg-steel transition-colors duration-500 group-hover:bg-accent-primary/30"></div>
-
-                {/* Pillar Details */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-carbon border border-steel flex items-center justify-center transition-colors duration-500 group-hover:border-accent-primary/50 group-hover:shadow-[0_0_15px_var(--accent-glow)]/10">
-                    <Icon className="w-6 h-6 text-silver transition-colors duration-500 group-hover:text-accent-primary" strokeWidth={2} />
-                  </div>
-                  <div className="flex flex-col">
-                    <h4 className="text-cloud font-bold">{test.name}</h4>
-                    <p className="text-silver text-sm">{test.role}</p>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            );
-          })}
-        </motion.div>
-
-        {/* Apple-style Bottom Paginator */}
-        <div className="flex justify-center mt-2 lg:mt-4">
-          <div className="flex items-center gap-2.5 bg-carbon/80 backdrop-blur-md px-5 py-3.5 rounded-full border border-white/5 shadow-2xl">
-            {testimonials.map((_, i) => (
-              <button 
-                key={i}
-                onClick={() => scrollTo(i)}
-                className={`h-2 rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  activeIndex === i 
-                    ? "w-8 bg-cloud shadow-[0_0_10px_rgba(255,255,255,0.3)]" 
-                    : "w-2 bg-steel hover:bg-silver transition-colors"
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
-          </div>
+      {/* Endless right-to-left stream. Hovering anywhere over it holds the run. */}
+      <motion.div
+        className="marquee-paused relative z-10 w-full"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
+      >
+        {/* Vertical padding gives the panel and chip shadows room to fall */}
+        <div className="animate-marquee flex w-max gap-14 py-8">
+          {stream.map((testimonial, i) => (
+            <TestimonialItem key={`${testimonial.id}-${i}`} testimonial={testimonial} />
+          ))}
         </div>
 
-      </div>
+        {/* Feathered edges so items dissolve rather than clip at the viewport */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-carbon to-transparent md:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-carbon to-transparent md:w-32" />
+      </motion.div>
     </section>
   );
 }
