@@ -9,8 +9,7 @@ import { SectionSwoop } from "@/components/ui/SectionSwoop";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getProductBySlug } from "@/lib/products";
 import { getServices, getTestimonials } from "@/lib/content";
-
-type Stat = { label: string; value: string };
+import { withLiveMetrics, type Stat } from "@/lib/metrics";
 
 export default async function Home() {
   const [settings, mechafrica, services, testimonials] = await Promise.all([
@@ -21,7 +20,10 @@ export default async function Home() {
   ]);
 
   // Stats are stored as JSON on the product; fall back gracefully if unset.
-  const mechafricaStats = (Array.isArray(mechafrica?.stats) ? mechafrica.stats : []) as Stat[];
+  const storedStats = (Array.isArray(mechafrica?.stats) ? mechafrica.stats : []) as Stat[];
+  // Farmer and provider counts come live from the MechAfrica backend, so the
+  // figures track the platform without anyone editing them in the admin.
+  const mechafricaStats = await withLiveMetrics(storedStats);
 
   return (
     <>
