@@ -211,9 +211,17 @@ None of the three pillars is the "real" business propping up hobbies on the side
   }
 
   // --- Products (MechAfrica is the first; more can be added later purely via admin) ---
+  const mechafricaStats = [
+    { label: "Farmers", value: "21,759+" },
+    { label: "Providers", value: "3,554+" },
+    { label: "Regions", value: "9" },
+  ];
+
   const mechafrica = await prisma.product.upsert({
     where: { slug: "mechafrica" },
-    update: {},
+    // Stats are the one field worth re-syncing on every seed. There is no admin
+    // UI for products, so seeding is the only supported way to publish new figures.
+    update: { stats: mechafricaStats },
     create: {
       slug: "mechafrica",
       name: "MechAfrica",
@@ -223,11 +231,7 @@ None of the three pillars is the "real" business propping up hobbies on the side
       url: "https://www.mechafrica.com/",
       logoUrl: null,
       status: "live",
-      stats: [
-        { label: "Farmers", value: "12,150+" },
-        { label: "Providers", value: "652" },
-        { label: "Regions", value: "9" },
-      ],
+      stats: mechafricaStats,
       order: 0,
     },
   });
